@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  app:
+    build: ./api
+    depends_on:
+      - db
+    tty: true
+    ports:
+      - 4000:4000
+    volumes:
+      - ./api:/usr/src/app
+
+  db:
+    image: mysql:5.7
+    restart: always
+    platform: linux/x86_64
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: bluegold
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "admin", "-p$$MYSQL_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  react:
+    build:
+      context: ./my-app
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    volumes:
+      - ./my-app:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run dev
+
+volumes:
+  mysql_data:
