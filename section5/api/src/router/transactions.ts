@@ -21,12 +21,40 @@ transactionsRouter.get('/', async (req, res) => {
 
 // POSTリクエスト
 transactionsRouter.post('/', async (req, res) => {
-  const { amount, type, date, category, description } = req.body;
-  // typeのパラメーターチェック
-  if (type !== '支出' && type !== '収入') {
-    throw 'Parameter is not assigned values!';
-  }
   try {
+    const { amount, type, date, category, description } = req.body;
+    // 入力検証
+    if (!amount || !type || !date || !category || !description) {
+      Logger.error('無効な入力です: 必須フィールドが欠落しています');
+      return res.status(400).json({
+        error: '無効な入力です: 必須フィールドが欠落しています',
+      });
+    }
+
+    if (amount <= 0) {
+      Logger.error('無効な入力です: 金額は正の値でなければなりません');
+      return res.status(400).json({
+        error: '無効な入力です: 金額は正の値でなければなりません',
+      });
+    }
+
+    if (!['支出', '収入'].includes(type)) {
+      Logger.error(
+        '無効な入力です: typeは"支出"または"収入"でなければなりません',
+      );
+      return res.status(400).json({
+        error: '無効な入力です: typeは"支出"または"収入"でなければなりません',
+      });
+    }
+
+    // 日付のバリデーション
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate.getTime())) {
+      Logger.error('無効な入力です: 日付フォーマットが不正です');
+      return res.status(400).json({
+        error: '無効な入力です: 日付フォーマットが不正です',
+      });
+    }
     // カテゴリの 名前から id を取得
     const categoryData = await prisma.category.findFirst({
       where: { name: category },
@@ -77,11 +105,40 @@ transactionsRouter.get('/:id', async (req, res) => {
 
 // PUTリクエスト
 transactionsRouter.put('/:id', async (req, res) => {
-  const { amount, type, date, category, description } = req.body;
-  if (type !== '支出' && type !== '収入') {
-    throw 'Parameter is not assigned values!';
-  }
   try {
+    const { amount, type, date, category, description } = req.body;
+    // 入力検証
+    if (!amount || !type || !date || !category || !description) {
+      Logger.error('無効な入力です: 必須フィールドが欠落しています');
+      return res.status(400).json({
+        error: '無効な入力です: 必須フィールドが欠落しています',
+      });
+    }
+
+    if (amount <= 0) {
+      Logger.error('無効な入力です: 金額は正の値でなければなりません');
+      return res.status(400).json({
+        error: '無効な入力です: 金額は正の値でなければなりません',
+      });
+    }
+
+    if (!['支出', '収入'].includes(type)) {
+      Logger.error(
+        '無効な入力です: typeは"支出"または"収入"でなければなりません',
+      );
+      return res.status(400).json({
+        error: '無効な入力です: typeは"支出"または"収入"でなければなりません',
+      });
+    }
+
+    // 日付のバリデーション
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate.getTime())) {
+      Logger.error('無効な入力です: 日付フォーマットが不正です');
+      return res.status(400).json({
+        error: '無効な入力です: 日付フォーマットが不正です',
+      });
+    }
     // カテゴリの名前から id を取得
     const categoryData = await prisma.category.findFirst({
       where: { name: category },
