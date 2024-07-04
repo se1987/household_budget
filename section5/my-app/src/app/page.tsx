@@ -1,6 +1,7 @@
-"use client";
+'use client';
+
 import React from 'react';
-import TransactionList from './pages/list/page'
+import TransactionList from './pages/list/page';
 
 export default function Home() {
   return (
