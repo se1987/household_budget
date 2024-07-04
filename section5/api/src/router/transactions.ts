@@ -9,8 +9,16 @@ const prisma = new PrismaClient(); // Prismaクライアントのインスタン
 // GETリクエスト
 transactionsRouter.get('/', async (req, res) => {
   try {
-    const transactions = await prisma.transaction.findMany(); // Prismaで取得
-    res.send(transactions);
+    const transactions = await prisma.transaction.findMany({
+      include: {
+        category: true,
+      },
+    }); // Prismaで取得
+    const transactionsWithCategoryName = transactions.map((transaction) => ({
+      ...transaction,
+      category: transaction.category.name,
+    }));
+    res.send(transactionsWithCategoryName);
   } catch (error: unknown) {
     if (error instanceof Error) {
       Logger.error(`エラー: GET /api/transactions - ${error.message}`); // エラーログ
@@ -97,6 +105,9 @@ transactionsRouter.post('/', async (req, res) => {
 transactionsRouter.get('/:id', async (req, res) => {
   const transaction = await prisma.transaction.findUnique({
     where: { id: parseInt(req.params.id) },
+    include: {
+      category: true,
+    },
   });
   if (!transaction) {
     Logger.error(`該当する取引が見つかりませんでした id: ${req.params.id}`); // エラーログ
