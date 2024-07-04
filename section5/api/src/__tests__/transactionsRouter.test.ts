@@ -43,7 +43,6 @@ describe('GET /api/transactions', () => {
 describe('POST /api/transactions', () => {
   test('should create a new transaction', async () => {
     const newTransaction = {
-      id: 1,
       amount: 1000,
       type: '支出',
       date: new Date().toISOString(),
@@ -171,7 +170,7 @@ describe('POST /api/transactions', () => {
       amount: 1000,
       type: '支出',
       date: new Date().toISOString(),
-      category: 'Food',
+      category: '食費',
       description: 'Test',
     };
 
@@ -192,9 +191,9 @@ describe('GET /api/transactions/:id', () => {
       id: 1,
       amount: 1000,
       type: '支出',
-      date: new Date(),
+      date: new Date('2024-07-03T00:00:00.000Z'),
       categoryId: 1,
-      description: 'Test',
+      description: 'Updated Test',
     };
 
     const res = await request(app).get('/api/transactions/1');
@@ -204,9 +203,9 @@ describe('GET /api/transactions/:id', () => {
   });
   // 異常系：該当する取引が見つからなかった場合のテスト
   test('should handle transaction not found', async () => {
-    const res = await request(app).get('/api/transactions/1');
+    const res = await request(app).get('/api/transactions/1000');
     expect(res.status).toBe(404);
-    expect(res.text).toBe('該当する取引が見つかりませんでした id: 1');
+    expect(res.text).toBe('該当する取引が見つかりませんでした id: 1000');
     // expect(Logger.error).toHaveBeenCalledWith(
     //   expect.stringContaining(
     //     'Error: No matching transactions were found. id: 1',
@@ -230,7 +229,7 @@ describe('PUT /api/transactions/:id', () => {
       id: 1,
       amount: 2000,
       type: '収入',
-      date: new Date().toISOString(),
+      date: new Date().toISOString().slice(0, 10),
       category: '給与',
       description: 'Updated',
     };
@@ -314,7 +313,7 @@ describe('PUT /api/transactions/:id', () => {
       amount: 1000,
       type: '支出',
       date: 'invalid-date-format',
-      category: 'Food',
+      category: '食費',
       description: 'Updated Test',
     };
 
@@ -367,5 +366,56 @@ describe('PUT /api/transactions/:id', () => {
       //   expect.stringContaining('エラー: PUT /api/transactions/1 - Test error'),
       // );
     });
+  });
+});
+
+// DELETE画面 DELETEメソッド テスト
+describe('DELETE /api/transactions/:id', () => {
+  test('should delete a transaction', async () => {
+    const res = await request(app).delete('/api/transactions/1');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({
+      id: 1,
+      amount: 2000,
+      type: '支出',
+      date: expect.any(String), // Date 型は適切なフォーマットで返されるかを確認
+      categoryId: 2,
+      description: 'Updated',
+    });
+    // expect(Logger.error).not.toHaveBeenCalled();
+  });
+
+  // 異常系: 無効なID
+  test('should return 400 for invalid ID', async () => {
+    const res = await request(app).delete('/api/transactions/invalid-id');
+    expect(res.status).toBe(400);
+    expect(res.body).toEqual({
+      error: '無効なIDです: 数値でなければなりません',
+    });
+    // expect(Logger.error).toHaveBeenCalledWith(
+    //   expect.stringContaining('無効なIDです'),
+    // );
+  });
+
+  // 異常系: 存在しないトランザクション
+  test('should return 404 if transaction not found', async () => {
+    const res = await request(app).delete('/api/transactions/9999');
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({
+      error: 'トランザクションが見つかりません: ID 9999',
+    });
+    // expect(Logger.error).toHaveBeenCalledWith(
+    //   expect.stringContaining('トランザクションが見つかりません'),
+    // );
+  });
+
+  // エラーハンドリングのテスト
+  it('should handle errors', async () => {
+    const res = await request(app).delete('/api/transactions/1');
+    expect(res.status).toBe(500);
+    expect(res.text).toBe('サーバーエラーが発生しました');
+    // expect(Logger.error).toHaveBeenCalledWith(
+    //   expect.stringContaining('エラー: DELETE /api/transactions/1 - Test error'),
+    // );
   });
 });

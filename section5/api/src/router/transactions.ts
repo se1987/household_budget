@@ -24,14 +24,21 @@ transactionsRouter.post('/', async (req, res) => {
   try {
     const { amount, type, date, category, description } = req.body;
     // 入力検証
-    if (!amount || !type || !date || !category || !description) {
+    if (!amount || !type || !date || !category) {
       Logger.error('無効な入力です: 必須フィールドが欠落しています');
       return res.status(400).json({
         error: '無効な入力です: 必須フィールドが欠落しています',
       });
     }
-
-    if (amount <= 0) {
+    // amountを整数に変換
+    const amountInt = parseInt(amount, 10);
+    if (isNaN(amountInt)) {
+      Logger.error('無効な入力です: amountは数値でなければなりません');
+      return res.status(400).json({
+        error: '無効な入力です: amountは数値でなければなりません',
+      });
+    }
+    if (amountInt <= 0) {
       Logger.error('無効な入力です: 金額は正の値でなければなりません');
       return res.status(400).json({
         error: '無効な入力です: 金額は正の値でなければなりません',
@@ -67,9 +74,9 @@ transactionsRouter.post('/', async (req, res) => {
 
     const newTransaction = await prisma.transaction.create({
       data: {
-        amount,
+        amount: amountInt,
         type,
-        date: new Date(date), // Date型に変換
+        date: parsedDate, // Date型に変換
         categoryId: categoryData.id,
         description,
       },
@@ -92,9 +99,7 @@ transactionsRouter.get('/:id', async (req, res) => {
     where: { id: parseInt(req.params.id) },
   });
   if (!transaction) {
-    Logger.error(
-      `Error: No matching transactions were found. id: ${req.params.id}`,
-    ); // エラーログ
+    Logger.error(`該当する取引が見つかりませんでした id: ${req.params.id}`); // エラーログ
     res
       .status(404)
       .send(`該当する取引が見つかりませんでした id: ${req.params.id}`);
@@ -108,20 +113,26 @@ transactionsRouter.put('/:id', async (req, res) => {
   try {
     const { amount, type, date, category, description } = req.body;
     // 入力検証
-    if (!amount || !type || !date || !category || !description) {
+    if (!amount || !type || !date || !category) {
       Logger.error('無効な入力です: 必須フィールドが欠落しています');
       return res.status(400).json({
         error: '無効な入力です: 必須フィールドが欠落しています',
       });
     }
-
-    if (amount <= 0) {
+    // amountを整数に変換
+    const amountInt = parseInt(amount, 10);
+    if (isNaN(amountInt)) {
+      Logger.error('無効な入力です: amountは数値でなければなりません');
+      return res.status(400).json({
+        error: '無効な入力です: amountは数値でなければなりません',
+      });
+    }
+    if (amountInt <= 0) {
       Logger.error('無効な入力です: 金額は正の値でなければなりません');
       return res.status(400).json({
         error: '無効な入力です: 金額は正の値でなければなりません',
       });
     }
-
     if (!['支出', '収入'].includes(type)) {
       Logger.error(
         '無効な入力です: typeは"支出"または"収入"でなければなりません',
@@ -152,9 +163,9 @@ transactionsRouter.put('/:id', async (req, res) => {
     const updatedTransaction = await prisma.transaction.update({
       where: { id: parseInt(req.params.id) },
       data: {
-        amount,
+        amount: amountInt,
         type,
-        date: new Date(date),
+        date: parsedDate,
         categoryId: categoryData.id,
         description,
       },
@@ -164,6 +175,47 @@ transactionsRouter.put('/:id', async (req, res) => {
     if (error instanceof Error) {
       Logger.error(
         `エラー: PUT /api/transactions/${req.params.id} - ${error.message}`,
+      ); // エラーログ
+      res.status(500).send('サーバーエラーが発生しました');
+    }
+  }
+});
+
+// DELETEリクエスト
+transactionsRouter.delete('/:id', async (req, res) => {
+  try {
+    const transactionId = parseInt(req.params.id);
+
+    if (isNaN(transactionId)) {
+      Logger.error('無効なIDです: 数値でなければなりません');
+      return res.status(400).json({
+        error: '無効なIDです: 数値でなければなりません',
+      });
+    }
+
+    // トランザクションが存在するかどうかを確認
+    const existingTransaction = await prisma.transaction.findUnique({
+      where: { id: transactionId },
+    });
+
+    if (!existingTransaction) {
+      Logger.error(`トランザクションが見つかりません: ID ${transactionId}`);
+      return res.status(404).json({
+        error: `トランザクションが見つかりません: ID ${transactionId}`,
+      });
+    }
+
+    // トランザクションの削除
+    const deletedTransaction = await prisma.transaction.delete({
+      where: { id: transactionId },
+    });
+
+    Logger.debug(`トランザクションが削除されました: ID ${transactionId}`); // デバッグログ
+    res.status(200).json(deletedTransaction);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(
+        `エラー: DELETE /api/transactions/${req.params.id} - ${error.message}`,
       ); // エラーログ
       res.status(500).send('サーバーエラーが発生しました');
     }
