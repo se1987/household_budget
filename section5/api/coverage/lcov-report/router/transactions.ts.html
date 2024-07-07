@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.77% </span>
+                <span class="strong">85.65% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>193/236</span>
+                <span class='fraction'>203/237</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85% </span>
+                <span class="strong">83.72% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>34/40</span>
+                <span class='fraction'>36/43</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">81.77% </span>
+                <span class="strong">85.65% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>193/236</span>
+                <span class='fraction'>203/237</span>
             </div>
         
             
@@ -299,7 +299,8 @@
 <a name='L234'></a><a href='#L234'>234</a>
 <a name='L235'></a><a href='#L235'>235</a>
 <a name='L236'></a><a href='#L236'>236</a>
-<a name='L237'></a><a href='#L237'>237</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -316,8 +317,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -387,9 +388,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -483,6 +484,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -510,21 +512,21 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -550,7 +552,7 @@ transactionsRouter.get('/', async (req, res) =&gt; {
       include: {
         category: true,
       },
-    }); // Prismaで取得
+    }); // Prismaでデータベース内のデータ取得
     const transactionsWithCategoryName = transactions.map((transaction) =&gt; ({
       ...transaction,
       category: transaction.category.name,
@@ -623,7 +625,7 @@ transactionsRouter.post('/', async (req, res) =&gt; {
         type,
         date: parsedDate, // Date型に変換
         categoryId: categoryData.id,
-        description,
+        description: description<span class="branch-0 cbranch-no" title="branch not covered" > || '',</span>
       },
     });
 &nbsp;
@@ -717,6 +719,7 @@ transactionsRouter.put('/:id', async (req, res) =&gt; {
         categoryId: categoryData.id,
         description,
       },
+      include: { category: true },
     });
     res.send(updatedTransaction);
   } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error: unknown) {</span>
@@ -752,15 +755,15 @@ transactionsRouter.delete('/:id', async (req, res) =&gt; {
         error: `トランザクションが見つかりません: ID ${transactionId}`,
       });
     }
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
-<span class="cstat-no" title="statement not covered" >    // トランザクションの削除</span>
-<span class="cstat-no" title="statement not covered" >    const deletedTransaction = await prisma.transaction.delete({</span>
-<span class="cstat-no" title="statement not covered" >      where: { id: transactionId },</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >    Logger.debug(`トランザクションが削除されました: ID ${transactionId}`); // デバッグログ</span>
-<span class="cstat-no" title="statement not covered" >    res.status(200).json(deletedTransaction);</span>
-<span class="cstat-no" title="statement not covered" >  } catch (error: unknown) {</span>
+&nbsp;
+    // トランザクションの削除
+    const deletedTransaction = await prisma.transaction.delete({
+      where: { id: transactionId },
+    });
+&nbsp;
+    Logger.debug(`トランザクションが削除されました: ID ${transactionId}`); // デバッグログ
+    res.status(200).json(deletedTransaction);
+  } <span class="branch-0 cbranch-no" title="branch not covered" >catch (error: unknown) {</span>
 <span class="cstat-no" title="statement not covered" >    if (error instanceof Error) {</span>
 <span class="cstat-no" title="statement not covered" >      Logger.error(</span>
 <span class="cstat-no" title="statement not covered" >        `エラー: DELETE /api/transactions/${req.params.id} - ${error.message}`,</span>
@@ -778,7 +781,7 @@ export default transactionsRouter;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-07-04T22:59:11.920Z
+                at 2024-07-07T09:57:44.216Z
             </div>
         <script src="../prettify.js"></script>
         <script>
