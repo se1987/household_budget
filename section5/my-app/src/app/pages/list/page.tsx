@@ -18,6 +18,8 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 //        {transaction.date} - {transaction.type} - {transaction.amount} - {transaction.description} - {transaction.category}
 export default function TransactionList() {
   // SWRを使用してデータをフェッチ
+  // カテゴリーデータの取得
+
   const { data: transactions, error } = useSWR<Transaction[], Error>(
     'http://localhost:4000/api/transactions',
     fetcher,
@@ -36,8 +38,8 @@ export default function TransactionList() {
             key={transaction.id}
           >
             <Link href={`pages/detail/${transaction.id}`}>
-              {transaction.date} - {transaction.type} - {transaction.category} -{' '}
-              {transaction.amount}
+              {new Date(transaction.date).toLocaleDateString('ja-JP')} -{' '}
+              {transaction.type} - {transaction.category} - {transaction.amount}
             </Link>
           </li>
         ))}

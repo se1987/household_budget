@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import useSWR, { mutate } from 'swr';
 import Title from '../../../../components/Title/Title';
 import Button from '../../../../components/Button/Button';
-import { Transaction } from '../../../../Models/Transaction';
+import { Transaction, CategoryType } from '../../../../Models/Transaction';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -14,10 +14,19 @@ const UpdatePage: React.FC = () => {
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  const { data: transaction, error } = useSWR<Transaction, Error>(
-    `http://localhost:4000/api/transactions/${id}`,
+  // カテゴリーデータの取得
+  const { data: categories, error: categoriesError } = useSWR<
+    CategoryType[],
+    Error
+  >(
+    'http://localhost:4000/api/categories', // 正しいエンドポイントを指定
     fetcher,
   );
+
+  const { data: transaction, error: transactionsError } = useSWR<
+    Transaction,
+    Error
+  >(`http://localhost:4000/api/transactions/${id}`, fetcher);
 
   const {
     register,
@@ -53,12 +62,13 @@ const UpdatePage: React.FC = () => {
     // 適切なキャンセル処理を実装
   };
 
-  if (error) return <div>エラーが発生しました</div>;
-  if (!transaction) return <div>読み込み中...</div>;
+  if (transactionsError || categoriesError)
+    return <div>エラーが発生しました</div>;
+  if (!transaction || !categories) return <div>読み込み中...</div>;
 
   return (
     <div className="max-w-lg mx-auto px-4 py-8">
-      <Title value="入力フォーム" />
+      <Title value="更新フォーム" />
       <form
         className="bg-white shadow-md rounded-lg p-6"
         onSubmit={handleSubmit(onSubmit)}
@@ -85,14 +95,12 @@ const UpdatePage: React.FC = () => {
         <div className="mb-4">
           <label htmlFor="category">カテゴリー:</label>
           <select id="category" {...register('category', { required: true })}>
-            <option value="住居費">住居費</option>
-            <option value="日用品">日用品</option>
-            <option value="食費">食費</option>
-            <option value="交通費">交通費</option>
-            <option value="交際費">交際費</option>
-            <option value="趣味・娯楽">趣味・娯楽</option>
-            <option value="医療費">医療費</option>
-            <option value="給与">給与</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {' '}
+                {category.name}
+              </option>
+            ))}
           </select>
           {errors.category && <span>カテゴリーは必須です</span>}
         </div>

@@ -1,4 +1,4 @@
-interface CategoryType {
+export interface CategoryType {
   id: number;
   name: string;
 }
@@ -7,9 +7,9 @@ export type IncomeExpense = '収入' | '支出';
 
 export interface Transaction {
   id: number;
-  date: string;
+  date: Date;
   type: IncomeExpense;
-  category: CategoryType;
+  category: string;
   amount: number;
   description?: string;
 }

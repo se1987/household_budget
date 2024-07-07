@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import useSWR, { mutate } from 'swr';
 import Title from '../../components/Title/Title';
 import Button from '../../components/Button/Button';
-import { Transaction } from '../../Models/Transaction';
+import { Transaction, CategoryType } from '../../Models/Transaction';
 
 // fetcher関数を定義
 // 指定されたURLからデータを取得し、JSONとしてパースする
@@ -21,13 +21,22 @@ const TransactionForm: React.FC = () => {
     formState: { errors },
   } = useForm<Transaction>();
   // useSWRフックを使用して、サーバーから取引データを取得
-  const { data: transactions, error } = useSWR<Transaction[], Error>(
-    'http://localhost:4000/api/transactions',
+  const { data: transactions, error: transactionsError } = useSWR<
+    Transaction[],
+    Error
+  >('http://localhost:4000/api/transactions', fetcher);
+  // カテゴリーデータの取得
+  const { data: categories, error: categoriesError } = useSWR<
+    CategoryType[],
+    Error
+  >(
+    'http://localhost:4000/api/categories', // 正しいエンドポイントを指定
     fetcher,
   );
+
   // データ取得中やエラー時の表示
-  if (error) return <div>Failed to load</div>;
-  if (!transactions) return <div>Loading...</div>;
+  if (transactionsError || categoriesError) return <div>Failed to load</div>;
+  if (!transactions || !categories) return <div>Loading...</div>;
 
   // フォームが送信されたときの処理を定義
 
@@ -84,20 +93,18 @@ const TransactionForm: React.FC = () => {
             <option value="収入">収入</option>
             <option value="支出">支出</option>
           </select>
-          {errors.type && <span>タイプは必須です</span>}
+          {errors.type && <span>タイプは必須です（収入/支出）</span>}
         </div>
 
         <div className="mb-4">
           <label htmlFor="category">カテゴリー:</label>
           <select id="category" {...register('category', { required: true })}>
-            <option value="住居費">住居費</option>
-            <option value="日用品">日用品</option>
-            <option value="食費">食費</option>
-            <option value="交通費">交通費</option>
-            <option value="交際費">交際費</option>
-            <option value="趣味・娯楽">趣味・娯楽</option>
-            <option value="医療費">医療費</option>
-            <option value="給与">給与</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {' '}
+                {category.name}
+              </option>
+            ))}
           </select>
           {errors.category && <span>カテゴリーは必須です</span>}
         </div>
@@ -110,7 +117,9 @@ const TransactionForm: React.FC = () => {
             type="number"
             {...register('amount', { required: true, min: 0 })}
           />
-          {errors.amount && <span>金額は必須です</span>}
+          {errors.amount && (
+            <span>金額が未入力または負の数が入力されています</span>
+          )}
         </div>
 
         <div className="mb-4">

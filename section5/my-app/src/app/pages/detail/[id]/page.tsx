@@ -41,7 +41,7 @@ export default function TransactionDetail() {
       <h3 className="py-4 flex justify-between items-center">
         メモ: {transaction.description}
       </h3>
-      <Link href={`/detail/${transaction.id}/update`}>
+      <Link href={`${transaction.id}/update`}>
         <Button value="更新" />
       </Link>
     </div>
