@@ -29,18 +29,18 @@
 
 ### 4. リクエスト・レスポンス データ形式
 
-リクエスト・レスポンスともにJSONファイル形式（以下具体例）
+- リクエスト・レスポンスともにJSONファイル形式
+- 本APIでカテゴリーの id と name の変換処理を行う（以下具体例）
 
 #### 4.1 POST, PUT リクエストデータ型　(Transaction)
 
 ```json
 {
+  "id": 2,
   "amount": 500,
-  "type": "支出",
   "date": "2024-07-26T00:00:00.000Z",
-  "category": {
-    "name": "食費"
-  },
+  "type": "支出",
+  "categoryId": 1,
   "description": "ランチ"
 }
 ```
@@ -53,7 +53,6 @@
   "amount": 500,
   "date": "2024-07-26T00:00:00.000Z",
   "type": "支出",
-  "categoryId": 1,
   "description": "ランチ",
   "category": "食費"
 }
