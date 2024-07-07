@@ -13,7 +13,7 @@ transactionsRouter.get('/', async (req, res) => {
       include: {
         category: true,
       },
-    }); // Prismaで取得
+    }); // Prismaでデータベース内のデータ取得
     const transactionsWithCategoryName = transactions.map((transaction) => ({
       ...transaction,
       category: transaction.category.name,
@@ -86,7 +86,7 @@ transactionsRouter.post('/', async (req, res) => {
         type,
         date: parsedDate, // Date型に変換
         categoryId: categoryData.id,
-        description,
+        description: description || '',
       },
     });
 
@@ -180,6 +180,7 @@ transactionsRouter.put('/:id', async (req, res) => {
         categoryId: categoryData.id,
         description,
       },
+      include: { category: true },
     });
     res.send(updatedTransaction);
   } catch (error: unknown) {

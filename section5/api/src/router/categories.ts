@@ -65,4 +65,43 @@ categoriesRouter.get('/:id', async (req, res) => {
   }
 });
 
+// PUTリクエスト
+categoriesRouter.put('/:id', async (req, res) => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ error: '不正なリクエストです。' });
+  }
+  try {
+    const updatedCategory = await prisma.category.update({
+      where: { id: parseInt(req.params.id) },
+      data: { name },
+    });
+    res.json(updatedCategory);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(
+        `エラー: PUT /api/categories/${req.params.id} - ${error.message}`,
+      ); // エラーログ
+      res.status(500).send('サーバーエラーが発生しました');
+    }
+  }
+});
+
+// DELETEリクエスト
+categoriesRouter.delete('/:id', async (req, res) => {
+  try {
+    const deletedCategory = await prisma.category.delete({
+      where: { id: parseInt(req.params.id) },
+    });
+    res.status(204).json(deletedCategory);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      Logger.error(
+        `エラー: DELETE /api/categories/${req.params.id} - ${error.message}`,
+      ); // エラーログ
+      res.status(500).send('サーバーエラーが発生しました');
+    }
+  }
+});
+
 export default categoriesRouter;
