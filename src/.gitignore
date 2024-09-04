@@ -1,2 +1,4 @@
 .env
 src/backend/prisma/migrations/*
+node_modules
+src/backend/node_modules
