@@ -14,6 +14,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// 入出金一覧表示
+
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
