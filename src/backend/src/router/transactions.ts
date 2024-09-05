@@ -46,13 +46,14 @@ transactionsRouter.post("/", async (req, res) => {
     if (isNaN(amountInt)) {
       throw new Error("金額が無効です: 数値ではありません");
     }
+    logger.debug(`♦♦金額が正常に変換されました: ${amountInt}`);
     const categoryId = await getOrCreateCategoryId(category);
     logger.debug(`♦♦カテゴリーID取得完了: ${categoryId}`);
 
     // トランザクションを作成
     const newTransaction = await prisma.transaction.create({
       data: {
-        amount,
+        amount: amountInt,
         date: new Date(date),
         type,
         categoryId,
