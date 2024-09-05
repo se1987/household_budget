@@ -1,5 +1,6 @@
 import { Router } from "express";
 import prisma from "../prisma";
+import logger from "../context/logger";
 
 const categoriesRouter = Router();
 
@@ -10,7 +11,10 @@ categoriesRouter.get("/", async (req, res) => {
     const categories = await prisma.category.findMany();
     res.json(categories);
   } catch (error) {
-    res.status(500).json({ error: "カテゴリー一覧の取得に失敗しました" });
+    if (error instanceof Error) {
+      logger.error(`エラー: GET /categories - ${error.message}`);
+      res.status(500).json({ error: "カテゴリー一覧の取得に失敗しました" });
+    }
   }
 });
 
@@ -23,7 +27,10 @@ categoriesRouter.post("/", async (req, res) => {
     });
     res.json(newCategory);
   } catch (error) {
-    res.status(500).json({ error: "カテゴリーの作成に失敗しました" });
+    if (error instanceof Error) {
+      logger.error(`エラー: POST /categories - ${error.message}`);
+      res.status(500).json({ error: "カテゴリーの作成に失敗しました" });
+    }
   }
 });
 

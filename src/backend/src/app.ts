@@ -14,8 +14,12 @@ const app = express();
 app.use(express.json()); // JSONをパースするためのミドルウェア
 const port = 4000;
 
-// Morganをミドルウェアとして使用
-app.use(morgan("dev"));
+// morganの設定: winstonにログを送る
+const stream = {
+  write: (message: string) => logger.debug(message.trim()),
+};
+// morganミドルウェア設定
+app.use(morgan("combined", { stream }));
 
 // CORSミドルウェアを設定
 app.use(

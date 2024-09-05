@@ -1,5 +1,4 @@
-import { CategoryType } from "./category";
-
+import { CategoryType } from './category';
 
 export type IncomeExpense = '収入' | '支出';
 
