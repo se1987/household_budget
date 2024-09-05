@@ -4,12 +4,16 @@ services:
   backend:
     build: ./backend
     env_file:
-      - .env
+      - ./backend/.env
     tty: true
     ports:
       - 4000:4000
     volumes:
       - ./backend:/usr/src/app
+    depends_on:
+      - db
+    networks:
+      - app-network
 
   db:
     image: postgres:13
@@ -39,6 +43,7 @@ services:
     command: npm run dev
     depends_on:
       - backend
+      - db
     networks:
       - app-network
 
