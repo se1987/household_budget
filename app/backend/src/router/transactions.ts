@@ -129,7 +129,7 @@ transactionsRouter.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     await prisma.transaction.delete({
-      where: { id: parseInt(req.params.id) },
+      where: { id: parseInt(id) },
     });
     logger.debug(`♦♦${req}が正常に削除されました`);
     res.json({ message: "収支を削除しました" });
