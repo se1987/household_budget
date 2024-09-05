@@ -22,8 +22,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="min-h-screen bg-sky-50">
           <nav className="bg-sky-500 text-white p-4">
-            <div className="container mx-auto flex justify-between items-center">
-              <ul className="flex space-x-4">
+            <div className="container mx-auto flex justify-center items-center">
+              <ul className="flex space-x-8 font-bold text-lg">
                 <li>
                   <Link href="/" className="hover:text-sky-200">
                     Home

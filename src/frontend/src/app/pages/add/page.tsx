@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import useSWR, { mutate } from 'swr';
 import Title from '../../components/Title/Title';
 import Button from '../../components/Button/Button';
@@ -14,6 +15,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 // 関数コンポーネント
 const TransactionForm: React.FC = () => {
+  const router = useRouter();
   // useFormフックでフォームの状態を管理
   const {
     register,
@@ -63,76 +65,117 @@ const TransactionForm: React.FC = () => {
       });
   };
 
+  const handleCancel = () => {
+    router.back(); // 前のページに戻る
+  };
+
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8">
       <Title value="入力フォーム" />
       <form
-        className="bg-white shadow-md rounded-lg p-6"
+        className="bg-gray-50 shadow-lg rounded-lg p-8"
         onSubmit={handleSubmit((data) => void onSubmit(data))}
       >
-        <div className="mb-4">
-          <label htmlFor="date">日付:</label>
+        <div className="mb-6 flex justify-between items-center">
+          <label htmlFor="date" className="font-semibold text-xl text-gray-700">
+            日付:
+          </label>
           <input
             id="date"
             type="date"
             defaultValue={today}
+            className="w-1/2 h-12 border border-gray-300 rounded-md shadow-sm text-xl text-gray-900"
             {...register('date', { required: true })}
           />
-          {errors.date && <span>日付は必須です</span>}{' '}
-          {/* 必須入力が未入力となっている場合、エラーメッセージが出る */}
+          {errors.date && <span className="text-red-500">日付は必須です</span>}
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="type">タイプ:</label>
+        <div className="mb-6 flex justify-between items-center">
+          <label htmlFor="type" className="font-semibold text-xl text-gray-700">
+            タイプ:
+          </label>
           <select
             id="type"
+            className="w-1/2 h-12 border border-gray-300 rounded-md shadow-sm text-xl text-gray-900"
             {...register('type', { required: true })}
             defaultValue="支出"
           >
             <option value="収入">収入</option>
             <option value="支出">支出</option>
           </select>
-          {errors.type && <span>タイプは必須です（収入/支出）</span>}
+          {errors.type && (
+            <span className="text-red-500">タイプは必須です</span>
+          )}
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="category">カテゴリー:</label>
-          <select id="category" {...register('category', { required: true })}>
+        <div className="mb-6 flex justify-between items-center">
+          <label
+            htmlFor="category"
+            className="font-semibold text-xl text-gray-700"
+          >
+            カテゴリー:
+          </label>
+          <select
+            id="category"
+            className="w-1/2 h-12 border border-gray-300 rounded-md shadow-sm text-xl text-gray-900"
+            {...register('category', { required: true })}
+          >
             {categories.map((category) => (
               <option key={category.id} value={category.name}>
-                {' '}
                 {category.name}
               </option>
             ))}
           </select>
-          {errors.category && <span>カテゴリーは必須です</span>}
+          {errors.category && (
+            <span className="text-red-500">カテゴリーは必須です</span>
+          )}
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="amount">金額:</label>
+        <div className="mb-6 flex justify-between items-center">
+          <label
+            htmlFor="amount"
+            className="font-semibold text-xl text-gray-700"
+          >
+            金額:
+          </label>
           <input
-            className="border-b border-gray-500"
             id="amount"
+            className="w-1/2 h-12 border border-gray-300 rounded-md shadow-sm text-xl text-gray-900"
             type="number"
             {...register('amount', { required: true, min: 0 })}
           />
           {errors.amount && (
-            <span>金額が未入力または負の数が入力されています</span>
+            <span className="text-red-500">金額が未入力または負の数です</span>
           )}
         </div>
 
-        <div className="mb-4">
-          <label htmlFor="description">説明:</label>
+        <div className="mb-6 flex justify-between items-center">
+          <label
+            htmlFor="description"
+            className="font-semibold text-xl text-gray-700"
+          >
+            説明:
+          </label>
           <input
-            className="border-b border-gray-500"
             id="description"
+            className="w-1/2 h-12 border border-gray-300 rounded-md shadow-sm text-xl text-gray-900"
             type="text"
             {...register('description')}
           />
         </div>
-        <Button value="送信" buttonType="submit" />
+
+        <div className="flex justify-center space-x-6 mt-8">
+          <Button value="送信" buttonType="submit" />
+          <button
+            className="w-40 bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-600 transition duration-300"
+            onClick={handleCancel}
+            type="button"
+          >
+            キャンセル
+          </button>
+        </div>
       </form>
     </div>
   );
