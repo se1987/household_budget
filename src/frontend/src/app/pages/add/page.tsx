@@ -31,7 +31,7 @@ const TransactionForm: React.FC = () => {
     CategoryType[],
     Error
   >(
-    'http://localhost:4000/api/categories', // 正しいエンドポイントを指定
+    'http://localhost:4000/categories', // 正しいエンドポイントを指定
     fetcher,
   );
 

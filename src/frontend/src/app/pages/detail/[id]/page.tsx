@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
-import { Transaction } from '../../../Models/transaction';
+import { Transaction } from '../../../models/transaction';
 import Title from '../../../components/Title/Title';
 import Button from '../../../components/Button/Button';
 
@@ -16,7 +16,7 @@ export default function TransactionDetail() {
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
   const { data: transaction, error } = useSWR<Transaction, Error>(
-    `http://localhost:4000/api/transactions/${id}`,
+    `http://localhost:4000/transactions/${id}`,
     fetcher,
   );
 

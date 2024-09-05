@@ -9,6 +9,7 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
+app.use(express.json()); // JSONをパースするためのミドルウェア
 const port = 4000;
 
 // CORSミドルウェアを設定
