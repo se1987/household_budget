@@ -6,7 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node src/app.ts",
     "build": "tsc",
-    "start": "node build/app.js"
+    "start": "node build/app.js",
+    "seed": "ts-node --transpile-only src/prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
