@@ -7,6 +7,7 @@
     "dev": "ts-node src/app.ts",
     "build": "tsc",
     "start": "node build/app.js",
+    "lint": "eslint .",
     "seed": "ts-node --transpile-only src/prisma/seed.ts"
   },
   "keywords": [],
