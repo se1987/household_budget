@@ -84,10 +84,10 @@ transactionsRouter.get("/:id", async (req, res) => {
       },
     });
     if (!transaction) {
-      logger.debug(`♦♦${req}に該当する取引が見つかりません`);
+      logger.debug(`♦♦ID: ${id} に該当する取引が見つかりません`);
       return res.status(404).json({ error: "該当する取引が見つかりません" });
     }
-    logger.debug(`♦♦${transaction}が取得されました`);
+    logger.debug(`♦♦取引が取得されました: ${JSON.stringify(transaction)}`);
     res.json(transaction);
   } catch (error) {
     if (error instanceof Error) {
@@ -103,7 +103,7 @@ transactionsRouter.put("/:id", async (req, res) => {
   const { amount, date, type, categoryId, description } = req.body;
   try {
     const transaction = await prisma.transaction.update({
-      where: { id: parseInt(req.params.id) },
+      where: { id: parseInt(id) },
       data: {
         amount,
         date: new Date(date),
@@ -112,11 +112,13 @@ transactionsRouter.put("/:id", async (req, res) => {
         description,
       },
     });
-    logger.debug(`♦♦${transaction}が正常に更新されました`);
+    logger.debug(
+      `♦♦取引が正常に更新されました: ${JSON.stringify(transaction)}`
+    );
     res.json(transaction);
   } catch (error) {
     if (error instanceof Error) {
-      logger.error(`♦♦エラー: PUT /transactions - ${error.message}`);
+      logger.error(`♦♦エラー: PUT /transactions/${id} - ${error.message}`);
       res.status(500).json({ error: "収支の更新に失敗しました" });
     }
   }

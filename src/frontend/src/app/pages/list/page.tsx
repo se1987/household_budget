@@ -39,7 +39,7 @@ export default function TransactionList() {
           >
             <Link href={`pages/detail/${transaction.id}`}>
               {new Date(transaction.date).toLocaleDateString('ja-JP')} -{' '}
-              {transaction.type} - {transaction.category.name} -{' '}
+              {transaction.type} - {transaction.category?.name} -{' '}
               {transaction.amount}
             </Link>
           </li>

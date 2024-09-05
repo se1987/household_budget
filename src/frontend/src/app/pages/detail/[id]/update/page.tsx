@@ -2,16 +2,18 @@
 
 import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import useSWR, { mutate } from 'swr';
 import Title from '../../../../components/Title/Title';
 import Button from '../../../../components/Button/Button';
-import { Transaction, CategoryType } from '../../../../Models/transaction';
+import { Transaction } from '../../../../models/transaction';
+import { CategoryType } from '@/app/models/category';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const UpdatePage: React.FC = () => {
   const params = useParams();
+  const router = useRouter();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
 
   // カテゴリーデータの取得
@@ -19,14 +21,14 @@ const UpdatePage: React.FC = () => {
     CategoryType[],
     Error
   >(
-    'http://localhost:4000/api/categories', // 正しいエンドポイントを指定
+    'http://localhost:4000/categories', // 正しいエンドポイントを指定
     fetcher,
   );
 
   const { data: transaction, error: transactionsError } = useSWR<
     Transaction,
     Error
-  >(`http://localhost:4000/api/transactions/${id}`, fetcher);
+  >(`http://localhost:4000/transactions/${id}`, fetcher);
 
   const {
     register,
@@ -48,23 +50,35 @@ const UpdatePage: React.FC = () => {
   }, [transaction, setValue]);
 
   const onSubmit: SubmitHandler<Transaction> = async (data) => {
-    await fetch(`http://localhost:4000/api/transactions/${id}`, {
+    await fetch(`http://localhost:4000/transactions/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });
-    mutate(`http://localhost:4000/api/transactions/${id}`);
+    mutate(`http://localhost:4000/transactions/${id}`);
   };
 
-  const handleCancel = () => {
-    // 適切なキャンセル処理を実装
+  // 削除処理を追加
+  const handleCancel = async () => {
+    const confirmDelete = window.confirm('本当に削除しますか？');
+    if (confirmDelete) {
+      await fetch(`http://localhost:4000/transactions/${id}`, {
+        method: 'DELETE',
+      });
+      mutate('http://localhost:4000/transactions'); // 一覧データを更新
+      router.push('/'); // 削除後にトランザクション一覧ページに遷移
+    }
   };
 
-  if (transactionsError || categoriesError)
+  if (transactionsError || categoriesError) {
     return <div>エラーが発生しました</div>;
-  if (!transaction || !categories) return <div>読み込み中...</div>;
+  }
+
+  if (!transaction || !categories) {
+    return <div>読み込み中...</div>;
+  }
 
   return (
     <div className="max-w-lg mx-auto px-4 py-8">
@@ -127,11 +141,7 @@ const UpdatePage: React.FC = () => {
         </div>
         <div className="flex">
           <Button value="更新" buttonType="submit" />
-          <Button
-            value="キャンセル"
-            buttonType="button"
-            clickFunc={handleCancel}
-          />
+          <Button value="削除" buttonType="button" clickFunc={handleCancel} />
         </div>
       </form>
     </div>
