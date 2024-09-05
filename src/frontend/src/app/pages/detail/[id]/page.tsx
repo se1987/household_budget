@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import useSWR from 'swr';
-import { Transaction } from '../../../Models/Transaction';
+import { Transaction } from '../../../Models/transaction';
 import Title from '../../../components/Title/Title';
 import Button from '../../../components/Button/Button';
 

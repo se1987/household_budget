@@ -10,16 +10,17 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
-    "next": "14.2.4",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-hook-form": "^7.52.0",
+    "next": "^14.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@types/next": "^9.0.0",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
     "eslint": "^8",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",

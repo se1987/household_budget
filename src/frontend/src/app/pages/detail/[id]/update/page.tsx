@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import useSWR, { mutate } from 'swr';
 import Title from '../../../../components/Title/Title';
 import Button from '../../../../components/Button/Button';
-import { Transaction, CategoryType } from '../../../../Models/Transaction';
+import { Transaction, CategoryType } from '../../../../Models/transaction';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

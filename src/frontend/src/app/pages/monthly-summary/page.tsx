@@ -3,13 +3,13 @@
 import React from 'react';
 import useSWR from 'swr';
 import Title from '../../components/Title/Title';
-import { Transaction } from '../../Models/Transaction';
+import { Transaction } from '@/app/models/transaction';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function MonthlySummary() {
   const { data: transactions, error } = useSWR<Transaction[], Error>(
-    'http://localhost:4000/api/transactions',
+    'http://localhost:4000/transactions',
     fetcher,
   );
 

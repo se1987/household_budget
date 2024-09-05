@@ -4,7 +4,7 @@
 import React from 'react';
 import useSWR from 'swr';
 import Link from 'next/link';
-import { Transaction } from '../../Models/Transaction';
+import { Transaction } from '@/app/models/transaction';
 import Title from '../../components/Title/Title';
 
 // fetcher関数を定義
@@ -21,7 +21,7 @@ export default function TransactionList() {
   // カテゴリーデータの取得
 
   const { data: transactions, error } = useSWR<Transaction[], Error>(
-    'http://localhost:4000/api/transactions',
+    'http://localhost:4000/transactions',
     fetcher,
   );
 
@@ -39,7 +39,8 @@ export default function TransactionList() {
           >
             <Link href={`pages/detail/${transaction.id}`}>
               {new Date(transaction.date).toLocaleDateString('ja-JP')} -{' '}
-              {transaction.type} - {transaction.category} - {transaction.amount}
+              {transaction.type} - {transaction.category.name} -{' '}
+              {transaction.amount}
             </Link>
           </li>
         ))}

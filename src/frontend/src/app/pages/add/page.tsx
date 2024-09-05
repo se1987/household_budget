@@ -5,7 +5,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import useSWR, { mutate } from 'swr';
 import Title from '../../components/Title/Title';
 import Button from '../../components/Button/Button';
-import { Transaction, CategoryType } from '../../Models/Transaction';
+import { Transaction } from '@/app/models/transaction';
+import { CategoryType } from '@/app/models/category';
 
 // fetcher関数を定義
 // 指定されたURLからデータを取得し、JSONとしてパースする
@@ -24,7 +25,7 @@ const TransactionForm: React.FC = () => {
   const { data: transactions, error: transactionsError } = useSWR<
     Transaction[],
     Error
-  >('http://localhost:4000/api/transactions', fetcher);
+  >('http://localhost:4000/transactions', fetcher);
   // カテゴリーデータの取得
   const { data: categories, error: categoriesError } = useSWR<
     CategoryType[],
@@ -41,7 +42,7 @@ const TransactionForm: React.FC = () => {
   // フォームが送信されたときの処理を定義
 
   const onSubmit: SubmitHandler<Transaction> = async (data: Transaction) => {
-    fetch('http://localhost:4000/api/transactions', {
+    fetch('http://localhost:4000/transactions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ const TransactionForm: React.FC = () => {
       .then((response: Response) => response.json())
       .then((newTransaction: Transaction) => {
         mutate(
-          'http://localhost:4000/api/transactions',
+          'http://localhost:4000/transactions',
           [...transactions, newTransaction],
           false,
         );
