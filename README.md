@@ -4,7 +4,7 @@
 一人用の家計簿アプリです。
 初学者が、フルスタックアプリ開発の学習のために作成しています。
 
-https://github.com/se1987/household_budget/issues/1#issue-2507549236
+![家計簿アプリHome](https://github.com/user-attachments/assets/701dd88e-49d0-4aad-ae6e-f7522d2bb80d)
 
 ## 使用技術
 - フロントエンド：Next.js,Typscript,TailwindCSS
