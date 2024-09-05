@@ -1,5 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
+import logger from "./context/logger";
+import morgan from "morgan";
 import transactionsRouter from "./router/transactions";
 import userRouter from "./router/user";
 import categoriesRouter from "./router/categories";
@@ -11,6 +13,9 @@ dotenv.config();
 const app = express();
 app.use(express.json()); // JSONをパースするためのミドルウェア
 const port = 4000;
+
+// Morganをミドルウェアとして使用
+app.use(morgan("dev"));
 
 // CORSミドルウェアを設定
 app.use(
@@ -30,5 +35,5 @@ app.get("/", (req, res) => {
 
 // サーバーの起動確認
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  logger.info(`♦♦Server running on http://localhost:${port}`);
 });
