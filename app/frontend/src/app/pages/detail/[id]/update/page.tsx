@@ -43,7 +43,7 @@ const UpdatePage: React.FC = () => {
     if (transaction) {
       setValue('date', transaction.date);
       setValue('type', transaction.type);
-      setValue('category', transaction.category);
+      setValue('category.id', transaction.category?.id);
       setValue('amount', transaction.amount);
       setValue('description', transaction.description);
     }
@@ -55,9 +55,13 @@ const UpdatePage: React.FC = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        ...data,
+        categoryId: data.category, // カテゴリーIDを送信
+      }),
     });
     mutate(`http://localhost:4000/transactions/${id}`);
+    router.push('/');
   };
 
   // 削除処理を追加
@@ -130,7 +134,7 @@ const UpdatePage: React.FC = () => {
             {...register('category', { required: true })}
           >
             {categories.map((category) => (
-              <option key={category.id} value={category.name}>
+              <option key={category.id} value={category.id}>
                 {category.name}
               </option>
             ))}

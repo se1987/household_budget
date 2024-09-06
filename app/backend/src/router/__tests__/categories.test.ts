@@ -1,5 +1,23 @@
 import request from 'supertest';
-import app from '../../app';
+import dotenv from 'dotenv';
+import express from 'express';
+import prisma from '../../prisma';
+import categoriesRouter from '../categories';
+
+dotenv.config();
+
+beforeAll(async () => {
+  await prisma.$connect();
+});
+
+afterAll(async () => {
+  await prisma.$disconnect();
+});
+
+const app = express();
+
+app.use(express.json());
+app.use('/categories', categoriesRouter);
 
 describe('Category API', () => {
   let categoryId: number;
