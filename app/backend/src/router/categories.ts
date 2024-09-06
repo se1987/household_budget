@@ -41,12 +41,15 @@ categoriesRouter.put("/:id", async (req, res) => {
   const { name } = req.body;
   try {
     const updatedCategory = await prisma.category.update({
-      where: { id: Number(id) },
+      where: { id: parseInt(id) },
       data: { name },
     });
     res.json(updatedCategory);
   } catch (error) {
-    res.status(500).json({ error: "カテゴリーの更新に失敗しました" });
+    if (error instanceof Error) {
+      logger.error(`♦♦エラー: PUT /transactions/${id} - ${error.message}`);
+      res.status(500).json({ error: "カテゴリーの更新に失敗しました" });
+    }
   }
 });
 
@@ -55,11 +58,14 @@ categoriesRouter.delete("/:id", async (req, res) => {
   const { id } = req.params;
   try {
     await prisma.category.delete({
-      where: { id: parseInt(req.params.id) },
+      where: { id: parseInt(id) },
     });
     res.json({ message: "カテゴリーを削除しました" });
   } catch (error) {
-    res.status(500).json({ error: "カテゴリーの削除に失敗しました" });
+    if (error instanceof Error) {
+      logger.error(`♦♦エラー: DELETE /categories/${id} - ${error.message}`);
+      res.status(500).json({ error: "カテゴリーの削除に失敗しました" });
+    }
   }
 });
 
