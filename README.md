@@ -1,4 +1,4 @@
-![twitter_header_photo_1](https://github.com/user-attachments/assets/39075728-123e-4a84-82a4-020257046d08)
+![twitter_header_photo_1](https://github.com/user-attachments/assets/b951aee4-9897-4d68-a0cd-5ebb22297fea)
 ## 概要
 一人用の家計簿アプリです。
 初学者が、フルスタックアプリ開発の学習のために作成しています。
