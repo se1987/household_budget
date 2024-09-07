@@ -1,4 +1,6 @@
 ![linkedin_banner_image_1](https://github.com/user-attachments/assets/ff5e03e9-1b48-47c1-a521-030b362b6cd8)
+![image](https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+
 ## 概要
 一人用の家計簿アプリです。
 初学者が、フルスタックアプリ開発の学習のために作成しています。
