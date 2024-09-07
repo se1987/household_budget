@@ -1,5 +1,5 @@
 # 家計簿アプリ
-<img src="https://github.com/user-attachments/assets/efa86c69-0940-4f38-9952-9c30f303da81" alt="logo" width="150" height="150">
+<img src="https://github.com/user-attachments/assets/efa86c69-0940-4f38-9952-9c30f303da81" alt="logo" width="450" height="450">
 
 ## 概要
 一人用の家計簿アプリです。
