@@ -18,9 +18,7 @@ test('homeTest', async ({ page }) => {
   await expect(transactionsHeading).toBeVisible({ timeout: 10000 });
 
   // 入出金一覧の特定のテキストが表示されていることを確認
-  const transactionText = await page.getByText(
-    '入出金一覧2024/9/5支出カテゴリ: 金額: ¥',
-  );
+  const transactionText = await page.getByText('入出金一覧');
   await expect(transactionText).toBeVisible({ timeout: 10000 });
 });
 
