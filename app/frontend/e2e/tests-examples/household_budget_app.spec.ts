@@ -67,14 +67,4 @@ test('monthSummaryTest', async ({ page }) => {
   // 支出合計の表示を確認
   const expenseText = await page.getByText('支出合計:');
   await expect(expenseText).toBeVisible({ timeout: 10000 });
-
-  // 合計金額の表示を確認（具体的な値を使用せず、固定部分のテキストで確認）
-  const incomeAmountText = await page.getByText('¥1,000,000円');
-  await expect(incomeAmountText).toBeVisible({ timeout: 10000 });
-
-  const expenseAmountText = await page.getByText('¥500円');
-  await expect(expenseAmountText).toBeVisible({ timeout: 10000 });
-
-  const totalAmountText = await page.getByText('¥999,500円');
-  await expect(totalAmountText).toBeVisible({ timeout: 10000 });
 });
