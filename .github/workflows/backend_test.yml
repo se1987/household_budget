@@ -3,10 +3,10 @@ name: Backend Tests
 on:
   push:
     branches:
-      - dev
+      - main
   pull_request:
     branches:
-      - dev
+      - main
 
 jobs:
   test:
@@ -34,8 +34,10 @@ jobs:
 
       # 4. npm install で依存パッケージをインストール
       - name: Install dependencies
+        working-directory: ./app/backend
         run: npm install
 
       # 5. Jest を使ってテストを実行
       - name: Run tests
+        working-directory: ./app/backend
         run: npm run test
