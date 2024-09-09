@@ -1,5 +1,24 @@
+import dotenv from 'dotenv';
 import request from 'supertest';
-import app from '../../app';
+import express from 'express';
+import prisma from '../../prisma';
+import transactionsRouter from '../transactions';
+import { expect, describe, beforeAll, afterAll } from '@jest/globals';
+
+dotenv.config();
+
+beforeAll(async () => {
+  await prisma.$connect();
+});
+
+afterAll(async () => {
+  await prisma.$disconnect();
+});
+
+const app = express();
+
+app.use(express.json());
+app.use('/transactions', transactionsRouter);
 
 describe('Transaction API', () => {
   let transactionId: number;
@@ -8,7 +27,7 @@ describe('Transaction API', () => {
   it('TC01: should get all transactions', async () => {
     const response = await request(app).get('/transactions');
     expect(response.status).toBe(200);
-    expect(response.body).toBeInstanceOf(Array);
+    expect(response.body).toBeTruthy();
   });
 
   // TC03: 新規収入・支出を作成

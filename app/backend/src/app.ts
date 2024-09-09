@@ -3,7 +3,6 @@ import express from 'express';
 import logger from './context/logger';
 import morgan from 'morgan';
 import transactionsRouter from './router/transactions';
-import userRouter from './router/user';
 import categoriesRouter from './router/categories';
 import cors from 'cors';
 
@@ -29,7 +28,6 @@ app.use(
   }),
 );
 // エンドポイントのルーティング設定
-app.use('/user', userRouter);
 app.use('/transactions', transactionsRouter);
 app.use('/categories', categoriesRouter);
 

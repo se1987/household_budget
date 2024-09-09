@@ -17,6 +17,7 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.47.0",
     "@types/next": "^9.0.0",
     "@types/node": "^20",
     "@types/react": "^18.3.5",
