@@ -14,12 +14,13 @@
 初学者が、フルスタックアプリ開発の学習のために作成しています。
 
 ![家計簿アプリHome](https://github.com/user-attachments/assets/701dd88e-49d0-4aad-ae6e-f7522d2bb80d)
-[デモ動画](https://github.com/user-attachments/assets/7a6c4705-763c-418d-880c-1caf968cb80a)
+[デモ動画](https://github.com/user-attachments/assets/15477e77-f1b7-4f79-ad2b-7c46b8dd96dd)
 
 ## 使用技術
 - フロントエンド：Next.js,Typscript,TailwindCSS
 - バックエンド：Node.js(Express),prisma
 - データベース：Postgres SQL
+- テスト：jest, playwright
 
 ## 実装している機能
 - 入出金の一覧表示
