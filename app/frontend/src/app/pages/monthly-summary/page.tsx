@@ -56,12 +56,12 @@ export default function MonthlySummary() {
             </span>
             <span
               className={`text-2xl font-bold ${
-                incomeTotal + expenseTotal >= 0
+                incomeTotal - expenseTotal >= 0
                   ? 'text-green-600'
                   : 'text-red-600'
               }`}
             >
-              ¥{(incomeTotal + expenseTotal).toLocaleString()}円
+              ¥{(incomeTotal - expenseTotal).toLocaleString()}円
             </span>
           </li>
         </ul>
