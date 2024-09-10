@@ -41,9 +41,13 @@ const UpdatePage: React.FC = () => {
 
   useEffect(() => {
     if (transaction) {
-      setValue('date', transaction.date);
+      // Dateオブジェクトを YYYY-MM-DD 形式に変換
+      const formattedDate = new Date(transaction.date)
+        .toISOString()
+        .split('T')[0];
+      setValue('date', formattedDate);
       setValue('type', transaction.type);
-      setValue('category.id', transaction.category?.id);
+      setValue('category.name', transaction.category?.name);
       setValue('amount', transaction.amount);
       setValue('description', transaction.description);
     }
