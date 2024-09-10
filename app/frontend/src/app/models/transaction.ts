@@ -4,7 +4,7 @@ export type IncomeExpense = '収入' | '支出';
 
 export interface Transaction {
   id: number;
-  date: Date;
+  date: string;
   type: IncomeExpense;
   amount: number;
   description?: string;
