@@ -41,7 +41,7 @@ jobs:
 
       # サーバーが起動するまで待機
       - name: Wait for server to be ready
-        run: sleep 15 # 必要に応じて時間を調整
+        run: sleep 15 # 必要に応じて調整
 
       # Playwrightテストの実行
       - name: Run Playwright tests
@@ -54,4 +54,3 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
-          retention-days: 30
