@@ -12,10 +12,7 @@ jobs:
       web:
         image: node:lts
         options: >
-          --health-cmd="curl -f http://localhost:3001/ || exit 1"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          --health-cmd="curl -f http://localhost:3001/ || exit 1" --health-interval=10s --health-timeout=5s --health-retries=5
         ports:
           - 3001:3001
     steps:
