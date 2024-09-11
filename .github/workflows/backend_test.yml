@@ -40,7 +40,7 @@ jobs:
       # 5. Prisma generate を実行
       - name: Prisma generate
         working-directory: ./app/backend
-        run: npx prisma generate
+        run: npx prisma generate --schema=./app/backend/src/prisma/schema.prisma
 
       # 6. Jest を使ってテストを実行
       - name: Run tests
