@@ -12,20 +12,33 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+
     steps:
       # 1. リポジトリをチェックアウト
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # 2. DockerとDocker Composeをインストール
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install docker-compose -y
-
-      # 3. Docker Composeを使ってサービスをビルドし起動
+      # 2. Docker Composeを使ってサービスをビルドし起動
       - name: Set up Docker Compose and Build Services
         run: docker-compose up --build -d
+
+      # 3. フロントエンドが起動するまで待機
+      - name: Wait for frontend to be ready
+        run: |
+          until curl -s http://localhost:3001/ > /dev/null; do
+            echo "Waiting for frontend...";
+            sleep 5;
+          done
+        timeout-minutes: 2
 
       # 4. Jestでバックエンドのテストを実行
       - name: Run Backend Jest Tests
