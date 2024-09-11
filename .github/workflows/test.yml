@@ -17,18 +17,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # 2. Docker Composeを使ってサービスをビルドし起動
+      # 2. DockerとDocker Composeをインストール
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose -y
+
+      # 3. Docker Composeを使ってサービスをビルドし起動
       - name: Set up Docker Compose and Build Services
         run: docker-compose up --build -d
 
-      # 3. Jestでバックエンドのテストを実行
+      # 4. Jestでバックエンドのテストを実行
       - name: Run Backend Jest Tests
         run: docker-compose exec backend npm run test
 
-      # 4. Playwrightでフロントエンドのテストを実行
+      # 5. Playwrightでフロントエンドのテストを実行
       - name: Run Frontend Playwright Tests
         run: docker-compose exec frontend npx playwright test
 
-      # 5. テスト後にすべてのコンテナを停止
+      # 6. テスト後にすべてのコンテナを停止
       - name: Stop Docker Compose
         run: docker-compose down
