@@ -32,17 +32,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      # 4. npm install で依存パッケージをインストール
+      # 4. 環境変数の設定 (DATABASE_URL を GitHub Secrets から取得)
+      - name: Set up environment variables
+        run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+
+      # 5. npm install で依存パッケージをインストール
       - name: Install dependencies
         working-directory: ./app/backend
         run: npm install
 
-      # 5. Prisma generate を実行
+      # 6. Prisma generate を実行
       - name: Prisma generate
         working-directory: ./app/backend/src/prisma
         run: npx prisma generate
 
-      # 6. Jest を使ってテストを実行
+      # 7. Jest を使ってテストを実行
       - name: Run tests
         working-directory: ./app/backend
         run: npm run test
