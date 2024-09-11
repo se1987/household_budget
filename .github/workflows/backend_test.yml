@@ -12,6 +12,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+
     steps:
       # 1. リポジトリをチェックアウト
       - name: Checkout code
@@ -44,7 +54,9 @@ jobs:
       # 6. Prisma generate を実行
       - name: Prisma generate
         working-directory: ./app/backend/src/prisma
-        run: npx prisma generate
+        run: |
+          npx prisma generate
+          prisma migrate dev
 
       # 7. Jest を使ってテストを実行
       - name: Run tests
