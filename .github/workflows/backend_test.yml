@@ -37,7 +37,12 @@ jobs:
         working-directory: ./app/backend
         run: npm install
 
-      # 5. Jest を使ってテストを実行
+      # 5. Prisma generate を実行
+      - name: Prisma generate
+        working-directory: ./app/backend
+        run: npx prisma generate
+
+      # 6. Jest を使ってテストを実行
       - name: Run tests
         working-directory: ./app/backend
         run: npm run test
