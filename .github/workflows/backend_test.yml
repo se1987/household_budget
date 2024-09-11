@@ -56,7 +56,7 @@ jobs:
         working-directory: ./app/backend/src/prisma
         run: |
           npx prisma generate
-          prisma migrate dev
+          npx prisma migrate dev
 
       # 7. Jest を使ってテストを実行
       - name: Run tests
